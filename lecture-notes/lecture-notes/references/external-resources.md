@@ -1,6 +1,6 @@
 # External resources
 
-This file records the libraries and typefaces a lecture document can load, each checked against the requirements in "How to use this file". It is the place defaults live: SKILL.md mentions a library by name only in passing, as an example, never as a choice, so editing this file is what changes which resources get used. Path references to this file elsewhere in the skill resolve relative to the skill's own directory, not to the working directory.
+This file records the libraries and typefaces a lecture document can load, each checked against the requirements in "How to use this file". It is the place defaults live: SKILL.md mentions a library by name only in passing, as an example, never as a choice, so editing this file, which is the user's to do, is what changes which resources get used. Path references to this file elsewhere in the skill resolve relative to the skill's own directory, not to the working directory.
 
 This file applies to HTML documents only. A lecture document delivered as a Word file, a PDF or slides is produced by that format's own tool or skill, and SKILL.md's "A lecture document in another format" sets these rules aside for it.
 
