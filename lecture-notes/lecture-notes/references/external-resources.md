@@ -2,7 +2,7 @@
 
 This file records the libraries and typefaces a lecture document can load, each checked against the requirements in "How to use this file". It is the place defaults live: SKILL.md mentions a library by name only in passing, as an example, never as a choice, so editing this file is what changes which resources get used. Path references to this file elsewhere in the skill resolve relative to the skill's own directory, not to the working directory.
 
-This file applies to HTML documents only. A lecture document delivered as a Word file, a PDF or slides is produced by that format's own tool, and SKILL.md's "A lecture document in another format" sets these rules aside for it.
+This file applies to HTML documents only. A lecture document delivered as a Word file, a PDF or slides is produced by that format's own tool or skill, and SKILL.md's "A lecture document in another format" sets these rules aside for it.
 
 Every version, file path and API detail in this file was checked against the registry, the CDN or the library's own source on 2026-09-21. That is when each fact held, not a promise that it still does.
 
@@ -16,7 +16,7 @@ Read this file while planning, before deciding which figures the document will h
 
 - **Start from the relevant entry in this file.** If one fits, use it and skip the search.
 - **Verify every URL by requesting it** before it goes into the document — scripts, stylesheets and font endpoints alike. Request font stylesheets with a browser User-Agent: Google Fonts answers a plain request with a different stylesheet (TrueType sources) from the one a browser gets (WOFF2 sources), so a check made without one is not a check of what the reader will receive.
-- **Report every external resource the document loads**, libraries and typefaces both, with its version where it has one and what it is for. Mark any that did not come from this file and give the reason it was chosen. This file cannot be written to from a session, so put a proposed entry in the reply, written in the shape "Entry format" sets out, for the user to add.
+- **Report every external resource the document loads**, libraries and typefaces both, with its version where it has one and what it is for. Mark any that did not come from this file and give the reason it was chosen. This file is read-only guidance that no kind of turn edits — SKILL.md's "Kinds of turn" states the rule — so put a proposed entry in the reply, written in the shape "Entry format" sets out, for the user to add.
 - **If nothing suitable exists, ask the user** rather than building the missing piece or silently producing a weaker result. Ask about that one figure, not about the document: everything else is delivered, with a marked gap where the figure belongs. A single unresolved figure never holds up the rest.
 - **Load nothing the document does not use.** A page with no formulas loads no math renderer. Typefaces are the exception in one direction: every HTML document loads the faces it sets text in, rather than naming local families and inheriting whatever the reader has installed.
 
@@ -24,7 +24,7 @@ Read this file while planning, before deciding which figures the document will h
 
 - **A library must be a large, actively maintained project with a CDN build.** Be wary of low-level toolkits: reaching for one usually means writing the layout, geometry and interaction by hand, which is the work this skill exists to avoid. That is a reason to prefer a higher-level library, not a ban.
 - **Resolve the version yourself.** Query the registry — `https://data.jsdelivr.com/v1/packages/npm/<package>` reports the current `latest` — then request the exact file before writing its URL into the document, and pin that exact version. The versions recorded in this file are a starting point for that check, not a substitute for it.
-- **Check the API against the version loaded**, in that version's documentation or source. Do not write library calls from memory. This is the defect SKILL.md's static checks cannot catch and its generation-time budget — one page load and one dispatch — will not surface either.
+- **Check the API against the version loaded**, in that version's documentation or source. Do not write library calls from memory. This is the defect SKILL.md's static checks cannot catch and its generation-time budget — one page load and one pass over the native controls — will not surface either.
 
 ### Additional rules for typefaces
 
@@ -34,7 +34,7 @@ Read this file while planning, before deciding which figures the document will h
 
 ### Loading under the synchronous rule
 
-SKILL.md allows two arrangements: libraries loaded with plain synchronous script tags, or every section's script waiting for `DOMContentLoaded`. The entries in this file assume the first, which is the simpler one, and the rules in this section are written for it. Under the second, `defer` and ES-module builds are also safe, since both run before `DOMContentLoaded` fires; `async` is safe under neither, since it can run after. Library documentation often shows something the first arrangement does not allow:
+SKILL.md allows two arrangements: libraries loaded with plain synchronous script tags, or every inline script that calls a library — each section's and the final pass's — waiting for `DOMContentLoaded`. The entries in this file assume the first, which is the simpler one, and the rules in this section are written for it. Under the second, `defer` and ES-module builds are also safe, since both run before `DOMContentLoaded` fires, but only when the final pass waits too: the final pass sits at the end of the body and looks late enough, and is not, since an inline script runs when the parser reaches it and a deferred library runs only after parsing ends — `renderMathInElement(document.body)` called plainly from the final pass under a deferred KaTeX fails with the function undefined. `async` is safe under neither arrangement, since it can run after `DOMContentLoaded`. Library documentation often shows something the first arrangement does not allow:
 
 - **Drop `defer` and `async`.** The MathJax package's own README, for one, loads it with `defer`. Under synchronous loading the attribute goes.
 - **Do not use an ES-module build.** A `<script type="module">` is deferred by default even with no attribute on it, so it breaks the rule silently. Use the classic build each entry lists, which exposes a global.
