@@ -324,7 +324,7 @@ Stop there. Beyond the single load in "That the content is there at all" and ite
 
 Each of these is specified in its own section; they are collected here because they are easy to lose one at a time. Most are conditional and most turns will owe only a few — say them in a line or two each, without headings, and leave out the ones that do not apply rather than writing that they do not. Each obligation stays stated where it arises as well, because a section has to be usable on its own. Where the two disagree, do the union: an obligation stated in either place is followed. Nothing about that goes in the reply — the user is owed the items themselves, not an account of where they were written down.
 
-What the reply owes depends on which kind of turn it is, as defined at the top of this file.
+What the reply owes depends on which kinds of turn the request called for, as "Kinds of turn" defines them, and a turn that carried out more than one owes what each of them owes.
 
 **Delivering a document.**
 
