@@ -200,12 +200,7 @@ IPA is a typeface question, not a library one, and the faces differ more than th
 | Noto Sans Mono | all ten |
 | JetBrains Mono | three |
 
-So:
-
-- **In a Japanese or Chinese document with IPA**, list Noto Serif after the CJK face in the prose font stack — for example `font-family: "Noto Serif JP", "Noto Serif", serif`. The CJK face has no IPA glyphs, the browser moves on to the next family for each such character, and Noto Serif supplies them instead of whatever the reader's system happens to fall back to.
-- **In a Latin-script document with IPA**, use Noto Serif as the prose face rather than Source Serif 4.
-- **Where IPA appears in code or another monospace setting**, use Noto Sans Mono rather than JetBrains Mono.
-- **Do not reach for Charis SIL or Gentium Plus through Google Fonts** for this, though both are designed for IPA: the hosted versions lack the length and stress marks that transcription depends on.
+So the IPA characters need a face whose files actually contain their glyphs, and of the faces checked only Noto Serif and Noto Sans Mono have all ten. Where the face setting the text can be one of those, use it as that face. Where it cannot, because the text itself needs a face that lacks them, as Japanese or Chinese prose needs its CJK face, keep that face and list one that has them after it in the stack — for example `font-family: "Noto Serif JP", "Noto Serif", serif` — so the browser falls back to it for each IPA character instead of to whatever the reader's system happens to have. Charis SIL and Gentium Plus do not qualify as Google Fonts serves them, though both are designed for IPA: the hosted versions lack the length and stress marks that transcription depends on.
 
 ### Notes that matter in use
 
