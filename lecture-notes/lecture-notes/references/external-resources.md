@@ -10,7 +10,7 @@ Every version, file path and API detail in this file was checked against the reg
 
 These resources have already been checked, so starting from this file saves the research. **This is a reference, not a whitelist.** A resource outside this file may fit a given document better, and choosing one is fine; what is fixed is the rules in this section, not the list of entries.
 
-Read this file while planning, before deciding which figures the document will have, because what "Libraries" does or does not cover decides which figures the document can have. Read it again before adding a figure to a document that already exists. Every HTML document loads typefaces, including one with no figures at all, so "Typefaces" applies even when no library is needed.
+Read this file while planning, before deciding which figures the document will have, because knowing what "Libraries" covers, and what it does not, is what shows early which figures have a library behind them and which will need one found beyond this file or asked about. Read it again before adding a figure to a document that already exists. Every HTML document loads typefaces, including one with no figures at all, so "Typefaces" applies even when no library is needed.
 
 ### Rules for any resource
 
