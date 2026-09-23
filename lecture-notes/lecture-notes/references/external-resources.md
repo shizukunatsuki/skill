@@ -162,10 +162,10 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 
 Every HTML document loads its typefaces rather than naming local families, so the typography does not depend on what the reader happens to have installed. Two delivery routes, both fine:
 
-- **Google Fonts** — `https://fonts.googleapis.com/css2?family=<family>:<axes>&display=swap`. The endpoint carries no version, so it is verified by request rather than pinned, with a browser User-Agent as "Rules for any resource" requires. It serves CJK families as many small subset files rather than one large download. Preconnect with `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`; without `crossorigin` the preconnect is not used for font files.
-- **Fontsource on jsDelivr** — `https://cdn.jsdelivr.net/npm/@fontsource/<family>@5.3.0/<weight>.css`, one stylesheet per weight; for example `https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-jp@5.3.0/400.css`. The same families as versioned npm packages, pinned like any library, checked 2026-09-21. Use it when a pinned version matters more than Google's subsetting.
+- **Google Fonts** — `https://fonts.googleapis.com/css2?family=<family>:<axes>&display=swap`. The endpoint carries no version, so it is verified by request rather than pinned, with a browser User-Agent as "Rules for any resource" requires. Google Fonts serves CJK families as many small subset files rather than one large download. Preconnect with `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`; without `crossorigin` the preconnect is not used for font files.
+- **Fontsource on jsDelivr** — `https://cdn.jsdelivr.net/npm/@fontsource/<family>@5.3.0/<weight>.css`, one stylesheet per weight; for example `https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-jp@5.3.0/400.css`. Fontsource publishes the Google Fonts families as versioned npm packages, pinned like any library, checked 2026-09-21. Use Fontsource when a pinned version matters more than Google's subsetting.
 
-Pick one family per role and no more. A document needs a prose face, a monospace face only if it shows code, and a face for phonetic transcription only if it contains IPA its prose face cannot set — that is a role of its own, and "Phonetic transcription" says which face fills it.
+Pick one family per role and no more. A document needs a prose face, a monospace face only if it shows code, and a face for phonetic transcription only if it contains IPA its prose face cannot set — phonetic transcription is a role of its own, and "Phonetic transcription" says which face fills it.
 
 | Role | Checked options |
 | --- | --- |
@@ -185,11 +185,11 @@ Verified Google Fonts stylesheets, at the weights each URL names, all returning 
 - `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap`
 - `https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap`
 
-These are also what SKILL.md's offline fallback uses: when the network is unavailable, these URLs and the library files in "Entries" are the record to fall back on, reported as unverified.
+The verified Google Fonts stylesheets are also what SKILL.md falls back on when the network is unavailable, together with the library files in "Entries"; each entry used offline goes in SKILL.md's unverified list.
 
 ### Phonetic transcription
 
-IPA is a typeface question, not a library one, and the faces differ more than their stylesheets suggest. Every face in the role table under "Typefaces" declares a unicode-range covering the IPA characters, but a declared range says only which subset file is responsible for those characters, not that the file contains them. Checked on 2026-09-21 by reading the glyph tables of the subset files themselves, against ə ɔ ʃ ʊ ŋ ɾ ʔ ː ˈ and a combining tilde:
+IPA is a typeface question, not a library one, and typefaces differ in IPA coverage more than their stylesheets suggest. Every face in the role table under "Typefaces" declares a unicode-range covering the IPA characters, but a declared range says only which subset file is responsible for those characters, not that the file contains them. Glyph coverage was checked on 2026-09-21 by reading the glyph tables of the subset files themselves, against ə ɔ ʃ ʊ ŋ ɾ ʔ ː ˈ and a combining tilde:
 
 | Face, as served by Google Fonts | IPA glyphs present |
 | --- | --- |
@@ -200,10 +200,10 @@ IPA is a typeface question, not a library one, and the faces differ more than th
 | Noto Sans Mono | all ten |
 | JetBrains Mono | three |
 
-So the IPA characters need a face whose files actually contain their glyphs, and of the faces checked only Noto Serif and Noto Sans Mono have all ten. Where the face setting the text can be one of those, use it as that face. Where it cannot, because the text itself needs a face that lacks them, as Japanese or Chinese prose needs its CJK face, keep that face and list one that has them after it in the stack — for example `font-family: "Noto Serif JP", "Noto Serif", serif` — so the browser falls back to it for each IPA character instead of to whatever the reader's system happens to have. Charis SIL and Gentium Plus do not qualify as Google Fonts serves them, though both are designed for IPA: the hosted versions lack the length and stress marks that transcription depends on.
+So the IPA characters need a face whose files actually contain their glyphs, and of the faces checked only Noto Serif and Noto Sans Mono have all ten. Where the text can be set in Noto Serif or Noto Sans Mono, set it in that face. Where the text needs a face that lacks the IPA glyphs, as Japanese or Chinese prose needs its CJK face, keep that face and list Noto Serif or Noto Sans Mono after it in the stack — for example `font-family: "Noto Serif JP", "Noto Serif", serif` — so the browser falls back to the listed face for each IPA character instead of to whatever the reader's system happens to have. Charis SIL and Gentium Plus, though both are designed for IPA, do not qualify in the versions Google Fonts serves: the hosted versions lack the length and stress marks that transcription depends on.
 
 ### Notes that matter in use
 
-- A CJK family covers ordinary Latin text, so a Japanese or Chinese document needs no separate Latin face for its prose. It does not cover IPA; "Phonetic transcription" says what to add.
+- A CJK family covers ordinary Latin text, so a Japanese or Chinese document needs no separate Latin face for its prose. A CJK family does not cover IPA; "Phonetic transcription" says what to add.
 - KaTeX and MathJax ship their own math faces with their stylesheets. Do not substitute a prose face into math.
 - Request only the weights the document uses. Requesting a full weight range multiplies the download for nothing.
