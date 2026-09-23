@@ -139,7 +139,7 @@ Where the mechanism stops applying, point it out **separately**, as the range of
 
 ### Density, not brevity
 
-Aim for density, not brevity. Length is not a target in either direction. Do not treat shortness as a goal here: "What counts as a good instance" and "Structure rules" call for several instances with different surfaces, contrast sets presented together, and every step of a mechanical transformation written out, and compressing those is how a document ends up short and useless.
+Aim for density, not brevity. Length is not a target in either direction. Do not treat shortness as a goal here: "The core pattern: abstract, then concrete", "What counts as a good instance" and "Structure rules" call for several instances with different surfaces, contrast sets presented together, and every step of a mechanical transformation written out, and compressing those is how a document ends up short and useless.
 
 Cut without hesitation: restatement of what was just said, derivational connectives, subsections created to hold one sentence, tables that repeat the prose, vague qualification that protects nothing, and recaps. Marking a specific fact as unconfirmed is not vague qualification and is never cut.
 
