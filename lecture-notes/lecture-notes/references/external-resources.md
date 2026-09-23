@@ -67,12 +67,12 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 | Plot a simple dataset where hover and legend toggling are enough | Chart.js |
 | Show nodes and edges, draggable and automatically laid out, trees included | Cytoscape.js |
 | Show a fixed structural diagram that does not need to be manipulated | Mermaid |
-| Typeset mathematical notation | KaTeX, or MathJax in the cases its entry names |
+| Typeset mathematical notation | KaTeX, or MathJax in the cases the KaTeX and MathJax entry names |
 | Typeset chemical formulae and equations | KaTeX with its mhchem extension |
 | Show source code with syntax colouring | highlight.js |
 | Show short musical examples written as notation text | abcjs |
 | Show a full score that exists as MusicXML | OpenSheetMusicDisplay |
-| Show phonetic transcription | No library — this is a typeface question; see "Phonetic transcription" |
+| Show phonetic transcription | No library — phonetic transcription is a typeface question; see "Phonetic transcription" |
 | Nothing in the selection map fits | Look beyond `references/external-resources.md` under the rules in "How to use `references/external-resources.md`"; ask the user if nothing suitable exists |
 
 ### Entries
@@ -80,11 +80,11 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 #### JSXGraph — the default figure engine
 
 - **Package and version** — `jsxgraph`, 1.13.3, checked 2026-09-21.
-- **Files** — `https://cdn.jsdelivr.net/npm/jsxgraph@1.13.3/distrib/jsxgraphcore.js` and `https://cdn.jsdelivr.net/npm/jsxgraph@1.13.3/distrib/jsxgraph.css`. The stylesheet is not optional; board rendering depends on it.
+- **Files** — `https://cdn.jsdelivr.net/npm/jsxgraph@1.13.3/distrib/jsxgraphcore.js` and `https://cdn.jsdelivr.net/npm/jsxgraph@1.13.3/distrib/jsxgraph.css`. `jsxgraph.css` is not optional; board rendering depends on it.
 - **Global** — `JXG`; boards are created with `JXG.JSXGraph.initBoard`.
 - **Loading** — synchronous, no signal to wait for.
-- **Use it for** — anything with parameters where points are dragged or constrained. It is declarative and constraint-based: declare the objects and the relations between them, and dragging, recomputation and redrawing follow. That is why it is the default — the alternative is recomputing geometry by hand on every pointer event. Several boards can be driven from one set of underlying objects, which is how panels that share state are built.
-- **Pitfalls** — a board takes its size from its container, so the container needs a size in CSS. Resizing with the container is on by default in this version (the board option `resize` defaults to enabled), so give the container a width that follows the page and an aspect ratio or height, and the board follows the window without further code. Labels can be typeset through KaTeX; confirm the option name in the loaded version's documentation.
+- **Use it for** — anything with parameters where points are dragged or constrained. JSXGraph is declarative and constraint-based: declare the objects and the relations between them, and dragging, recomputation and redrawing follow. Being declarative and constraint-based is why JSXGraph is the default — the alternative is recomputing geometry by hand on every pointer event. Several boards can be driven from one set of underlying objects, which is how panels that share state are built.
+- **Pitfalls** — a board takes its size from its container, so the container needs a size in CSS. Resizing with the container is on by default in 1.13.3 (the board option `resize` defaults to enabled), so give the container a width that follows the page and an aspect ratio or height, and the board follows the window without further code. Labels can be typeset through KaTeX; confirm the option name in the loaded version's documentation.
 
 #### Plotly.js — interactive data charts
 
@@ -93,7 +93,7 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 - **Global** — `Plotly`; plots are created with `Plotly.newPlot`.
 - **Loading** — synchronous, no signal to wait for.
 - **Use it for** — plotting a dataset the reader explores by hovering, zooming or selecting.
-- **Pitfalls** — the `responsive` config option defaults to off in this version, so a plot keeps the size it was drawn at unless `{responsive: true}` is passed to `Plotly.newPlot`.
+- **Pitfalls** — the `responsive` config option defaults to off in 4.1.1, so a plot keeps the size it was drawn at unless `{responsive: true}` is passed to `Plotly.newPlot`.
 
 #### Chart.js — simple charts
 
@@ -111,25 +111,25 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 - **Global** — `cytoscape`.
 - **Loading** — synchronous, no signal to wait for.
 - **Use it for** — any structure expressible as nodes and edges, draggable and automatically laid out, including trees such as syntax trees. Layout algorithms beyond the built-in ones ship as separate extension packages.
-- **Pitfalls** — it draws into its container at the container's computed size, so give the container a size in CSS, and call `cy.resize()` if the container's size is changed by script.
+- **Pitfalls** — Cytoscape.js draws into its container at the container's computed size, so give the container a size in CSS, and call `cy.resize()` if the container's size is changed by script.
 
 #### Mermaid — static structural diagrams
 
 - **Package and version** — `mermaid`, 12.0.0, checked 2026-09-21.
 - **Files** — `https://cdn.jsdelivr.net/npm/mermaid@12.0.0/dist/mermaid.min.js` (about 5.3 MB).
 - **Global** — `mermaid`.
-- **Loading** — synchronous. `startOnLoad` defaults to on in this build, which renders every element with the class `mermaid` on page load but gives no signal when it has finished — the asynchronous work "Loading arrangements" warns about, with nothing to wait on. So turn it off with `mermaid.initialize({startOnLoad: false})` in the skeleton and call `mermaid.run()` in the final pass instead: `run` is asynchronous and returns a promise, and that promise is the signal to wait on. Call it again for diagrams added afterwards.
-- **Use it for** — a diagram that does not need to be manipulated. Diagrams are written as text, which costs far less output than hand-drawn SVG and cannot go wrong geometrically.
-- **Pitfalls** — it is not interactive; if the reader should move or vary something, this is the wrong entry. It is also the heaviest file in this reference, so do not load it for a single small diagram that a static figure would serve.
+- **Loading** — synchronous. `startOnLoad` defaults to on in the 12.0.0 build, which renders every element with the class `mermaid` on page load but gives no signal when the rendering has finished — the asynchronous work "Loading arrangements" warns about, with nothing to wait on. So turn `startOnLoad` off with `mermaid.initialize({startOnLoad: false})` in the skeleton and call `mermaid.run()` in the final pass instead: `run` is asynchronous and returns a promise, and that promise is the signal to wait on. Call `mermaid.run()` again for diagrams added afterwards.
+- **Use it for** — a diagram that does not need to be manipulated. Mermaid diagrams are written as text, which costs far less output than hand-drawn SVG and cannot go wrong geometrically.
+- **Pitfalls** — Mermaid is not interactive; if the reader should move or vary something, Mermaid is the wrong choice. `mermaid.min.js` is also the heaviest file in `references/external-resources.md`, so do not load it for a single small diagram that a static figure would serve.
 
 #### KaTeX and MathJax — notation
 
 - **Package and version** — `katex`, 0.18.7, and `mathjax`, 4.1.3; both checked 2026-09-21.
 - **Files** — KaTeX, the default: `https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.js`, `https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.css` and `https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/contrib/auto-render.min.js`; add `https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/contrib/mhchem.min.js` for chemistry. MathJax: `https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-chtml.js`.
 - **Global** — `katex` and `renderMathInElement` for KaTeX; `MathJax` for MathJax.
-- **Loading** — KaTeX typesets synchronously and without reflow, which matters because figure labels are re-typeset on every drag frame. Call `renderMathInElement(document.body)` once, in the final pass, after every section is in the page. MathJax is configured by assigning a global `MathJax = {…}` object in a script placed before its tag; drop the `defer` its README uses. Its typesetting is asynchronous whatever the loading: wait on `MathJax.startup.promise` before reading typeset output, and call `MathJax.typesetPromise()` for content added after load.
-- **Use it for** — KaTeX by default. Switch to MathJax when the document needs TeX coverage KaTeX lacks, such as less common packages or automatic line breaking of long displayed equations, or when its expression explorer is wanted. For chemistry, KaTeX's mhchem extension adds `\ce{…}` for formulae and equations and `\pu{…}` for physical units.
-- **Pitfalls** — **auto-render does not recognize single dollar signs by default.** Its default inline delimiter is `\(…\)`; the `$…$` pair is present in its source but commented out, because a lone `$` is also money. Write inline math as `\(…\)`, or pass a `delimiters` option that adds `$`. Math written `$x$` without that option is left on the page as raw source, which item 13 in SKILL.md exists to catch. Keep MathJax out of drag handlers, since its typesetting is asynchronous.
+- **Loading** — KaTeX typesets synchronously and without reflow, which matters because figure labels are re-typeset on every drag frame. Call `renderMathInElement(document.body)` once, in the final pass, after every section is in the page. MathJax is configured by assigning a global `MathJax = {…}` object in a script placed before its tag; drop the `defer` its README uses. MathJax's typesetting is asynchronous whatever the loading: wait on `MathJax.startup.promise` before reading typeset output, and call `MathJax.typesetPromise()` for content added after load.
+- **Use it for** — KaTeX by default. Switch to MathJax when the document needs TeX coverage KaTeX lacks, such as less common packages or automatic line breaking of long displayed equations, or when MathJax's expression explorer is wanted. For chemistry, KaTeX's mhchem extension adds `\ce{…}` for formulae and equations and `\pu{…}` for physical units.
+- **Pitfalls** — **auto-render does not recognize single dollar signs by default.** auto-render's default inline delimiter is `\(…\)`; the `$…$` pair is present in its source but commented out, because a lone `$` is also money. Write inline math as `\(…\)`, or pass a `delimiters` option that adds `$`. Math written `$x$` without a `delimiters` option that adds `$` is left on the page as raw source, which item 13 in SKILL.md exists to catch. Keep MathJax out of drag handlers, since its typesetting is asynchronous.
 
 #### highlight.js — code with syntax colouring
 
@@ -137,8 +137,8 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 - **Files** — `https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.12.0/highlight.min.js` and one theme stylesheet, such as `https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.12.0/styles/github.min.css`.
 - **Global** — `hljs`.
 - **Loading** — synchronous. Call `hljs.highlightAll()` once, in the final pass, after every `<pre><code>` block is in the page.
-- **Use it for** — any code the document shows. Colouring is tokenizing, which is parsing, and SKILL.md rules out writing a parser. Chosen over Prism, whose stable line was last published in 2025-03 with its next major version still in alpha.
-- **Pitfalls** — name the language with a `language-<name>` class on each `<code>` element rather than relying on detection, which misreads short snippets. Pair it with the monospace face under "Typefaces".
+- **Use it for** — any code the document shows. Colouring is tokenizing, which is parsing, and SKILL.md rules out writing a parser. highlight.js was chosen over Prism, whose stable line was last published in 2025-03 with its next major version still in alpha.
+- **Pitfalls** — name the language with a `language-<name>` class on each `<code>` element rather than relying on detection, which misreads short snippets. Pair highlight.js with the monospace face under "Typefaces".
 
 #### abcjs — short musical examples
 
@@ -147,15 +147,15 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 - **Global** — `ABCJS`; `ABCJS.renderAbc` takes a target element and ABC notation text.
 - **Loading** — synchronous, no signal to wait for.
 - **Use it for** — short notated examples written as text in ABC notation: text in, engraved music out, which does for musical examples what Mermaid does for diagrams. A full score that already exists as a file belongs to OpenSheetMusicDisplay.
-- **Pitfalls** — ABC is its own notation; write it against the version's documentation rather than from memory.
+- **Pitfalls** — ABC is its own notation; write ABC against the loaded version's documentation rather than from memory.
 
 #### OpenSheetMusicDisplay — full scores from MusicXML
 
 - **Package and version** — `opensheetmusicdisplay`, 2.1.3, checked 2026-09-21; last published 2026-09-19.
 - **Files** — `https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@2.1.3/build/opensheetmusicdisplay.min.js`.
 - **Global** — `opensheetmusicdisplay`, whose `OpenSheetMusicDisplay` class draws a score into a container.
-- **Loading** — synchronous script; loading a score into it is asynchronous, so render only after the load resolves, as the version's documentation sets out.
-- **Use it for** — a score that exists as MusicXML. Engraving a score note by note is not listed: VexFlow, which OpenSheetMusicDisplay draws with, places notes by hand and falls under the caution about low-level toolkits.
+- **Loading** — synchronous script; loading a score into an `OpenSheetMusicDisplay` instance is asynchronous, so render only after the load resolves, as the loaded version's documentation sets out.
+- **Use it for** — a score that exists as MusicXML. Engraving a score note by note is not listed: VexFlow, which OpenSheetMusicDisplay draws with, places notes by hand and falls under the caution about low-level toolkits in "Additional rules for libraries".
 - **Pitfalls** — none found in checking beyond the asynchronous load.
 
 ## Typefaces
