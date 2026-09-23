@@ -29,7 +29,7 @@ Read `references/external-resources.md` while planning, before deciding which fi
 ### Additional rules for typefaces
 
 - **A typeface must come from a stable font CDN**, not a personal or single-purpose host.
-- **Request only the families and weights the document sets text in.** A stylesheet endpoint that carries no version is verified by request rather than pinned; a versioned font package is pinned like a library.
+- **Request only the families and weights the document sets text in.** Requesting a full weight range multiplies the download for nothing. A stylesheet endpoint that carries no version is verified by request rather than pinned; a versioned font package is pinned like a library.
 - **Confirm the family names match.** A typeface has no API to check, so what takes the place of checking one is confirming that the family names in the document's CSS are the names the endpoint actually serves.
 
 ### Loading arrangements
@@ -206,4 +206,3 @@ So the IPA characters need a face whose files actually contain their glyphs, and
 
 - A CJK family covers ordinary Latin text, so a Japanese or Chinese document needs no separate Latin face for its prose. A CJK family does not cover IPA; "Phonetic transcription" says what to add.
 - KaTeX and MathJax ship their own math faces with their stylesheets. Do not substitute a prose face into math.
-- Request only the weights the document uses. Requesting a full weight range multiplies the download for nothing.
