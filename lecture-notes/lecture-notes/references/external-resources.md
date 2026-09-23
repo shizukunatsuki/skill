@@ -54,7 +54,7 @@ A **library** entry is a level-four heading, `#### <Name> — <what it is for>`,
 - **Use it for** — what the figure has to do for this to be the right choice, and what sends the choice elsewhere.
 - **Pitfalls** — failures found in checking that are not obvious from its documentation.
 
-A **typeface** entry is a row in the role table under "Typefaces" together with a URL in the list of verified stylesheets under the same heading.
+A **typeface** entry is a row in the role table under "Typefaces", together with the record of where it was verified: for Google Fonts, a URL in the list of verified stylesheets under the same heading; for Fontsource, the package with its pinned version.
 
 ## Libraries
 
