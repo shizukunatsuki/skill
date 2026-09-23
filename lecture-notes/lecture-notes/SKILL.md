@@ -328,7 +328,7 @@ What the reply owes depends on which kinds of turn the request called for, as "K
 
 **Delivering a document.**
 
-- **The plan** for a new document, stated briefly beside it, including the terms the grounding is expressed in and, where the topic read more than one way, which reading was written for and which were set aside, so the user can move either; or, for a revision, **what changed and where**, section by section.
+- **The plan** for a new document, stated briefly beside it, including the terms the grounding is expressed in and, where the topic read more than one way, which reading was written for and which were set aside, so the user can correct either; or, for a revision, **what changed and where**, section by section.
 - **Every external resource the document loads**, libraries and typefaces alike, with its version where it has one and what it is for — with the ones outside `references/external-resources.md` marked and their reason given, and a proposed entry in the file's own form for each.
 - **The viewport width** the one-load check was run at.
 - **One list of everything that could not be verified**, if anything could not be checked at all — the browser or the network missing, or no way to execute a computation. One list for the whole reply, not one per section.
