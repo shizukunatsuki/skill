@@ -1,12 +1,12 @@
 # External resources
 
-This file records the libraries and typefaces a lecture document can load, each checked against the requirements in "How to use this file". It is the place defaults live: SKILL.md mentions a library by name only in passing, as an example, never as a choice, so editing this file, which is the user's to do, is what changes which resources get used. Path references to this file elsewhere in the skill resolve relative to the skill's own directory, not to the working directory.
+`references/external-resources.md` records the libraries and typefaces a lecture document can load, each checked against the requirements in "How to use `references/external-resources.md`", and is the place defaults live: SKILL.md mentions a library by name only in passing, as an example, never as a choice, so editing `references/external-resources.md`, which is the user's to do, is what changes which resources get used. The path `references/external-resources.md`, in SKILL.md and in `references/external-resources.md` alike, resolves relative to the lecture-notes skill's own directory, not to the working directory.
 
-This file applies to HTML documents only. A lecture document delivered as a Word file, a PDF or slides is produced by that format's own tool or skill, and SKILL.md's "A lecture document in another format" sets these rules aside for it.
+`references/external-resources.md` applies to HTML documents only. A lecture document delivered as a Word file, a PDF or slides is produced by that format's own tool or skill, and SKILL.md's "A lecture document in another format" sets the rules in `references/external-resources.md` aside for it.
 
-Every version, file path and API detail in this file was checked against the registry, the CDN or the library's own source on 2026-09-21. That is when each fact held, not a promise that it still does.
+Every version, file path and API detail in `references/external-resources.md` was checked against the registry, the CDN or the library's own source on 2026-09-21, which is when each fact held, not a promise that it still does.
 
-## How to use this file
+## How to use `references/external-resources.md`
 
 These resources have already been checked, so starting from this file saves the research. **This is a reference, not a whitelist.** A resource outside this file may fit a given document better, and choosing one is fine; what is fixed is the rules in this section, not the list of entries.
 
@@ -73,7 +73,7 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 | Show short musical examples written as notation text | abcjs |
 | Show a full score that exists as MusicXML | OpenSheetMusicDisplay |
 | Show phonetic transcription | No library — this is a typeface question; see "Phonetic transcription" |
-| Nothing in this map fits | Look beyond this file under the rules in "How to use this file"; ask the user if nothing suitable exists |
+| Nothing in the selection map fits | Look beyond `references/external-resources.md` under the rules in "How to use `references/external-resources.md`"; ask the user if nothing suitable exists |
 
 ### Entries
 
