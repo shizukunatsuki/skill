@@ -316,7 +316,7 @@ What items 12 and 13 turn up are content defects, not polish. When delivering, f
 14. Syntax is valid, no undefined identifiers, and no duplicate top-level names where several scripts share one global scope. The duplicate-name check is worth an explicit grep across every top-level declaration, because the two ways a duplicate name fails look nothing alike: a repeated `var` or `function` is silently overwritten and the page half-works, while a repeated `let`, `const` or `class` throws a SyntaxError that stops the whole second script from running.
 15. Library calls match the version actually loaded, checked against that version's documentation rather than written from memory.
 
-Keeping generation-time checking to one load and item 13's pass over the native controls leaves a known gap, and it is deliberate rather than an oversight: beyond the native controls item 13 reaches, an interaction delivered in the first version has been read but never driven, so its correctness rests on item 10 until the first runtime round settles it.
+Keeping generation-time checking to one load and item 13's pass over the native controls leaves a known gap by design: beyond the native controls item 13 reaches, an interaction delivered in the first version has been read but never driven, so its correctness rests on item 10 until the first runtime round settles it.
 
 Beyond the one-load check and item 13's pass over the native controls inside it, do not exercise the controls, chase rendering glitches, or tune the interface while the document is being written. **Interface work belongs to a runtime round**, which happens when the user asks for it and carries its own budget — see "Kinds of turn".
 
