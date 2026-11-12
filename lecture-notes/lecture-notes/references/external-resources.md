@@ -157,7 +157,7 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 - **Files** — `https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.12.0/highlight.min.js` and one theme stylesheet, such as `https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.12.0/styles/github.min.css`.
 - **Global** — `hljs`.
 - **Loading** — synchronous. Call `hljs.highlightAll()` once, in the final pass, after every `<pre><code>` block is in the page.
-- **Use it for** — any code the document shows. Colouring is tokenizing, which is parsing, and SKILL.md rules out writing a parser. highlight.js was chosen over Prism, whose stable line was last published in 2025-03 with its next major version still in alpha.
+- **Use it for** — any code the document shows. Colouring is tokenizing, which is parsing, and SKILL.md rules out writing a parser.
 - **Pitfalls** — name the language with a `language-<name>` class on each `<code>` element rather than relying on detection, which misreads short snippets. Pair highlight.js with the monospace face under "Typefaces".
 
 #### abcjs — short musical examples
@@ -175,7 +175,7 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 - **Files** — `https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@2.1.3/build/opensheetmusicdisplay.min.js`.
 - **Global** — `opensheetmusicdisplay`, whose `OpenSheetMusicDisplay` class draws a score into a container.
 - **Loading** — synchronous script; loading a score into an `OpenSheetMusicDisplay` instance is asynchronous, so render only after the load resolves, as the loaded version's documentation sets out.
-- **Use it for** — a score that exists as MusicXML. Engraving a score note by note is not listed: VexFlow, which OpenSheetMusicDisplay draws with, places notes by hand and falls under the caution about low-level toolkits in "Additional rules for libraries".
+- **Use it for** — a score that exists as MusicXML.
 - **Pitfalls** — none found in checking beyond the asynchronous load.
 
 ## Typefaces
@@ -216,11 +216,10 @@ IPA is a typeface question, not a library one, and typefaces differ in IPA cover
 | Noto Serif | all ten |
 | Source Serif 4 | four; lacks ɔ ʃ ʊ ɾ ʔ ː |
 | Noto Serif JP, Noto Sans JP, Noto Serif SC, Noto Sans SC | none |
-| Charis SIL, Gentium Plus | eight; lacks the length mark ː and the stress mark ˈ in every subset file |
 | Noto Sans Mono | all ten |
 | JetBrains Mono | three |
 
-So the IPA characters need a face whose files actually contain their glyphs, and of the faces checked only Noto Serif and Noto Sans Mono have all ten. Where the text can be set in Noto Serif or Noto Sans Mono, set it in that face. Where the text needs a face that lacks the IPA glyphs, as Japanese or Chinese prose needs its CJK face, keep that face and list Noto Serif or Noto Sans Mono after it in the stack — for example `font-family: "Noto Serif JP", "Noto Serif", serif` — so the browser falls back to the listed face for each IPA character instead of to whatever the reader's system happens to have. Charis SIL and Gentium Plus, though both are designed for IPA, do not qualify in the versions Google Fonts serves: the hosted versions lack the length and stress marks that transcription depends on.
+So the IPA characters need a face whose files actually contain their glyphs, and of the faces checked only Noto Serif and Noto Sans Mono have all ten. Where the text can be set in Noto Serif or Noto Sans Mono, set it in that face. Where the text needs a face that lacks the IPA glyphs, as Japanese or Chinese prose needs its CJK face, keep that face and list Noto Serif or Noto Sans Mono after it in the stack — for example `font-family: "Noto Serif JP", "Noto Serif", serif` — so the browser falls back to the listed face for each IPA character instead of to whatever the reader's system happens to have.
 
 ### Notes that matter in use
 
