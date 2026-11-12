@@ -4,7 +4,7 @@
 
 `references/external-resources.md` applies to HTML documents only. A lecture document delivered as a Word file, a PDF or slides is produced by that format's own tool or skill, and SKILL.md's "A lecture document in another format" sets the rules in `references/external-resources.md` aside for it.
 
-Every version, file path and API detail in `references/external-resources.md` was checked against the registry, the CDN or the library's own source on 2026-09-21, which is when each fact held, not a promise that it still does.
+Every version, file path and API detail in `references/external-resources.md` was checked against the registry, the CDN or the library's own source on the date its entry records, which is when each fact held, not a promise that it still does.
 
 ## How to use `references/external-resources.md`
 
@@ -34,12 +34,21 @@ Read `references/external-resources.md` while planning, before deciding which fi
 
 ### Loading arrangements
 
-SKILL.md allows two arrangements: synchronous loading, where libraries load with plain synchronous script tags; and the arrangement where every library-calling script waits for `DOMContentLoaded` — the skeleton's shared script where it makes such a call, as the `mermaid.initialize` call in the Mermaid entry does, each section's, and the final pass's. The entries in `references/external-resources.md` assume synchronous loading, which is the simpler arrangement. Where every library-calling script waits for `DOMContentLoaded`, `defer` is also safe, since a deferred script runs before `DOMContentLoaded` fires. The final pass has to wait too: it sits at the end of the body and looks late enough, and is not, since an inline script runs when the parser reaches it and a deferred library runs only after parsing ends — `renderMathInElement(document.body)` called plainly from the final pass under a deferred KaTeX fails with the function undefined. `async` is safe under neither arrangement, since an `async` library can run after `DOMContentLoaded` has fired, and an ES-module build fits neither arrangement, since what a module exports is not a global a section's script can call. Four rules apply under synchronous loading; "Drop `defer` and `async`" and "Do not use an ES-module build" exist because library documentation often shows what synchronous loading does not allow:
+SKILL.md allows two arrangements: synchronous loading, where libraries load with plain synchronous script tags; and the arrangement where every library-calling script waits for `DOMContentLoaded` — the skeleton's shared script where it makes such a call, as the `mermaid.initialize` call in the Mermaid entry does, each section's, and the final pass's. The entries in `references/external-resources.md` assume synchronous loading, which is the simpler arrangement, except three.js. Where every library-calling script waits for `DOMContentLoaded`, `defer` is also safe, since a deferred script runs before `DOMContentLoaded` fires. The final pass has to wait too: it sits at the end of the body and looks late enough, and is not, since an inline script runs when the parser reaches it and a deferred library runs only after parsing ends — `renderMathInElement(document.body)` called plainly from the final pass under a deferred KaTeX fails with the function undefined. `async` is safe under neither arrangement, since an `async` library can run after `DOMContentLoaded` has fired. An ES-module build fits neither arrangement either, since what a module exports is not a global a section's script can call; three.js ships ES modules only, so it loads under a third arrangement of its own, "Module loading for three.js" below. Four rules apply under synchronous loading; "Drop `defer` and `async`" and "Do not use an ES-module build" exist because library documentation often shows what synchronous loading does not allow:
 
 - **Drop `defer` and `async`.** The MathJax package's own README, for one, loads MathJax with `defer`; under synchronous loading the `defer` goes.
-- **Do not use an ES-module build.** A `<script type="module">` is deferred by default even with no attribute on it, so a module script breaks synchronous loading silently. Use the classic build each entry lists, which exposes a global.
+- **Do not use an ES-module build.** A `<script type="module">` is deferred by default even with no attribute on it, so a module script breaks synchronous loading silently. Use the classic build each entry lists, which exposes a global. three.js is the one exception: it ships no classic build at all, so it cannot follow this rule and loads under "Module loading for three.js" instead.
 - **Load every library in the skeleton, before the shared script and any section's script**, and load an extension after the library it extends — KaTeX's `auto-render` and `mhchem` after `katex.min.js`.
 - **Some libraries finish their work asynchronously even when their script loads synchronously.** MathJax typesets after it starts up, Mermaid renders its diagrams on page load, and OpenSheetMusicDisplay loads a score before it can draw it. Every entry's **Loading** bullet states whether the entry's library finishes asynchronously and what signal it gives, which makes the **Loading** bullet the place to look for any particular library. A section's inline script must not read what an asynchronously finishing library produces — the size of a typeset formula, a rendered diagram, an engraved score — while the page is still parsing. Wait for the signal the library's entry names. SKILL.md's one-load check waits for the signals the entries name before judging whether content rendered.
+
+#### Module loading for three.js
+
+three.js ships ES modules only — no classic build exposing a global exists in the package — so it loads under a third arrangement, which only it uses:
+
+- **An import map in the skeleton, before any module script.** The `<script type="importmap">` maps `three` to the pinned module build and `three/addons/` to the pinned `examples/jsm/` directory; the entry's **Files** bullet gives the URLs. The addons import the bare specifier `three`, which the import map resolves; without the map the browser throws on the bare specifier.
+- **Every script that calls three.js is itself `<script type="module">`**, importing what it calls. A module's imports resolve before its body runs, so no module ever calls an undefined library, and nothing inside a module waits for `DOMContentLoaded`. Each section's figure script is its own module; modules share no global scope, so a helper stays inside the section that uses it.
+- **Module scripts are deferred by default**: they run after parsing, in document order, and before `DOMContentLoaded` fires. A classic script waiting for `DOMContentLoaded` — the final pass, the one-load check — therefore sees everything the modules produced. Never add `async` to a module script: it then runs as soon as its imports resolve, out of document order.
+- **The signal is the render.** `renderer.render(scene, camera)` is synchronous: a figure rendered once at the end of its module is complete by `DOMContentLoaded`. A figure driven only by `renderer.setAnimationLoop` draws its first frame on the first animation frame after `DOMContentLoaded`, so wait one animation frame past it before judging.
 
 ### Entry format
 
@@ -50,7 +59,7 @@ A **library** entry is a level-four heading, `#### <Name> — <what it is for>`,
 - **Package and version** — the npm package, the version, and the date it was checked.
 - **Files** — every file the page loads for the library, as full CDN URLs, in load order.
 - **Global** — the name a section's script calls.
-- **Loading** — how the library behaves under synchronous loading, including any signal to wait for.
+- **Loading** — how the library behaves under the loading arrangement its entry uses, including any signal to wait for.
 - **Use it for** — what the figure has to do for the library to be the right choice, and what sends the choice elsewhere.
 - **Pitfalls** — failures found in checking that are not obvious from the library's documentation.
 
@@ -64,8 +73,10 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 | --- | --- |
 | Show an object with parameters, where points are dragged or constrained; or drive several panels from one shared state | JSXGraph |
 | Plot a dataset with interaction — hover, zoom, selection | Plotly.js |
+| Plot a dataset in three dimensions — surface or scatter | Plotly.js |
 | Plot a simple dataset where hover and legend toggling are enough | Chart.js |
 | Show nodes and edges, draggable and automatically laid out, trees included | Cytoscape.js |
+| Show a 3D scene built from geometry — solids, parametric surfaces, fields in space — that the reader rotates or moves through | three.js |
 | Show a fixed structural diagram that does not need to be manipulated | Mermaid |
 | Typeset mathematical notation | KaTeX, or MathJax in the cases the KaTeX and MathJax entry names |
 | Typeset chemical formulae and equations | KaTeX with its mhchem extension |
@@ -112,6 +123,15 @@ A **typeface** entry is a row in the role table under "Typefaces", together with
 - **Loading** — synchronous, no signal to wait for.
 - **Use it for** — any structure expressible as nodes and edges, draggable and automatically laid out, including trees such as syntax trees. Layout algorithms beyond the built-in ones ship as separate extension packages.
 - **Pitfalls** — Cytoscape.js draws into its container at the container's computed size, so give the container a size in CSS, and call `cy.resize()` if the container's size is changed by script.
+
+#### three.js — 3D scenes the reader manipulates
+
+- **Package and version** — `three`, 0.187.0, checked 2026-11-12; last published 2026-10-30.
+- **Files** — an import map in the skeleton maps `three` to `https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js` and `three/addons/` to `https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/`. The page loads, in order, `https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js`, then `https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.core.js`, which the module imports relatively (about 1.4 MB; the pair is about 2.1 MB), then each addon used, such as `https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/controls/OrbitControls.js`.
+- **Global** — none: three.js ships ES modules only, so there is no global to call. A section's script is itself `<script type="module">` and calls its imports — `import * as THREE from 'three'`, and for the camera controls `import { OrbitControls } from 'three/addons/controls/OrbitControls.js'`.
+- **Loading** — modules, under "Module loading for three.js": the import map comes first, every three.js-calling script is a module, and modules run after parsing, in document order, before `DOMContentLoaded`. `renderer.render(scene, camera)` is synchronous, so a figure rendered once at the end of its module is complete by `DOMContentLoaded`, which is the signal to wait for; a figure driven only by `renderer.setAnimationLoop` draws its first frame one animation frame later.
+- **Use it for** — a figure whose object is three-dimensional and manipulated in space: a solid the reader rotates, a parametric surface, a vector field in 3D, a camera moving through a scene. three.js is a low-level toolkit in the sense of "Additional rules for libraries" — scene, camera, lights, geometry and the render loop are written by hand — and it is recorded because no higher-level library covers manipulable 3D; its OrbitControls addon supplies orbit, zoom and pan, so the interaction at least is not hand-written. A surface or scatter plot of a dataset, in 3D as in 2D, belongs to Plotly.js; a two-dimensional figure with draggable points belongs to JSXGraph. Use `WebGLRenderer`, the mature default; `WebGPURenderer` is for TSL node materials and compute shaders, needs an asynchronous `init()`, and is not the choice for a lecture figure.
+- **Pitfalls** — no classic build exists: the `three.min.js` CDN URLs older tutorials show are years-old versions of the library, and the package's `three.cjs` is a deprecation stub, so a plain `<script src>` cannot load current three.js at all. The package ships no minified build either; jsDelivr's on-the-fly `.min.js` minifies only the file requested, and `three.module.min.js` still imports the unminified `./three.core.js`, saving about 260 KB of the 2.1 MB — use the shipped files. `renderer.setSize` takes pixels and the canvas does not follow CSS, so give the container a size in CSS, pass its measured size, and on resize update the camera's aspect and projection matrix along with the renderer size. Passing `renderer.domElement` to the `OrbitControls` constructor connects it automatically; `enableDamping` defaults to off, and turning it or `autoRotate` on requires `controls.update()` every frame in the render loop — without the loop the motion never settles. Without damping, render on the controls' `change` event instead of running a continuous loop. The figure needs WebGL: headless Chrome renders it through SwiftShader when launched with `--enable-unsafe-swiftshader`, so the one-load check runs headless.
 
 #### Mermaid — static structural diagrams
 
